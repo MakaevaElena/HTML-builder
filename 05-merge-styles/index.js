@@ -15,12 +15,14 @@ fs.readdir(path.join(__dirname, 'styles'), { withFileTypes: true }, (_, files) =
     console.log(`Папка project-dist успешно создана`);
   });
 
-  const writeStream = fs.createWriteStream(path.join(__dirname, 'project-dist', 'bundle.css'));
+  const writeStream = fs.createWriteStream(
+    path.join(__dirname, 'project-dist', 'bundle.css'),
+    'utf-8',
+  );
 
-  // let styleArr = [];
   cssFiles.forEach((file) => {
     // 4. Чтение файла стилей
-    const readStream = fs.createReadStream(path.join(__dirname, 'styles', file.name));
+    const readStream = fs.createReadStream(path.join(__dirname, 'styles', file.name), 'utf-8');
 
     // 6. Запись массива стилей в файл **bundle.css**
     readStream.on('data', (chunk) => writeStream.write(chunk));
