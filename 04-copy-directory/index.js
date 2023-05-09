@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const copyDir = () => {
+const copy = () => {
   fs.mkdir(path.join(__dirname, 'files-copy'), { recursive: true }, (err) => {
     if (err) throw err; // не удалось создать папку
     console.log(`Папка files-copy успешно создана`);
@@ -18,6 +18,21 @@ const copyDir = () => {
         },
       );
     });
+  });
+};
+
+const copyDir = () => {
+  fs.stat(path.join(__dirname, 'files-copy'), function (err) {
+    if (!err) {
+      console.log('Папка files-copy есть');
+      fs.rm(path.join(__dirname, 'files-copy'), { recursive: true }, (err) => {
+        if (err) throw err; // не удалось удалить папку
+        console.log('Папка files-copy успешно удалена');
+        copy();
+      });
+    } else {
+      copy();
+    }
   });
 };
 
